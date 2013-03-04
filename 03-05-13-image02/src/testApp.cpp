@@ -24,18 +24,19 @@ void testApp::update(){
             
             // horizontal gradient 
             // this "wraps" over
-            //pixels[ j * 640 + i ] = i;
-                        
+            // pixels[ j * 640 + i ] = i;
+            
             
             // this is funky and weird
-             pixels[ j * 640 + i ] = ofMap(i + sin(j/10.0 + ofGetElapsedTimef()) * j, 0, 640, 255, 0, false);
-
+            //pixels[ j * 640 + i ] = ofMap(i + sin(j/10.0 + mouseX/50) * j, 0, 640, 255, 0, false);
+            pixels[ j * 640 + i ] = ofMap(i + (1+sin(j)) *j + mouseY, 0, 640, 255, 0, true);
             
             
             
         }
     }
     
+    // Now, let's update the img!
     img.update();
     
 }
