@@ -26,17 +26,7 @@ void testApp::update(){
             // so for us that's
             // pos = j * 640 + i
             
-            // float dist = ofDist(mouseX, mouseY, i, j);      // calculate the distance between two 2d points (pythogrean)
-            
-            //pixels[ j * 640 + i ] = ofMap(sin(dist), -1, 1, 0, 255);
-            //pixels[ j * 640 + i ] = ofMap(sin(dist/10.0), -1, 1, 0, 255);
-            
-            // pixels[ j * 640 + i ] = ofMap(sin(dist/10.0 + j/10.0), -1, 1, 0, 255);      // no idea!
             pixels[j*640 + i] = ofMap(i * 50 + j * 100, 0, 11200, 0, (sin(i)+ 1)/2 * 255 + (sin(j)+ 1)/2 * 255) - mouseY;
-            
-            //pixels[ j * 640 + i ] = i * j / MAX(1,mouseX);      // also, no idea!
-            
-            
         }
     }
     
