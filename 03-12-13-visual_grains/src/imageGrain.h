@@ -23,10 +23,9 @@ public:
     
     int numCols;
     int numRows;
-    int redMin;
-    int redMax;
-    int blueMin;
-    int blueMax;
+    int redTarget;
+    int blueTarget;
+    int spread;
 };
 
 #endif /* defined(___3_12_13_visual_grains__imageGrains__) */

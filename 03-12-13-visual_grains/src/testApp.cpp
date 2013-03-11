@@ -8,10 +8,9 @@ void testApp::setup(){
     ofFill();
     ofSetFrameRate(60);
     ofSetBackgroundAuto(false);
-    pictureManager.grain.redMin = 10;
-    pictureManager.grain.redMax = 255;
-    pictureManager.grain.blueMin = 10;
-    pictureManager.grain.blueMax = 255;
+    pictureManager.grain.redTarget = 127;
+    pictureManager.grain.blueTarget = 127;
+    pictureManager.grain.spread = 127;
 }
 
 //--------------------------------------------------------------

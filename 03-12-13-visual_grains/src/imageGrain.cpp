@@ -17,7 +17,7 @@ imageGrain::imageGrain(){
 void imageGrain::generate(){
     for (int i=0; i < numCols; i++) {
         for(int j=0; j<numRows; j++){
-            ofSetColor((int)ofRandom(redMin, redMax), 0, (int)ofRandom(blueMin, blueMax));
+            ofSetColor((int)ofRandom(redTarget-spread, redTarget+spread), 0, (int)ofRandom(blueTarget+spread, blueTarget-spread));
             ofRect(i*scale, j*scale, scale, scale);
         }
     }

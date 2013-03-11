@@ -17,10 +17,9 @@ imageManager::imageManager(){
 void imageManager::update(){
     imagesPerSecond = ofMap(sin(ofGetElapsedTimef()), -1, 1, 2, 30);
     durationInMillis = (int)1000/imagesPerSecond;
-    grain.redMax = ofMap(ofGetMouseX(), 0, ofGetWidth(), 255, 10);
-    grain.blueMax = ofMap(ofGetMouseX(), 0, ofGetWidth(), 10, 255);
-    grain.redMin = ofMap(ofGetMouseY(), 0, ofGetHeight(), 255, 10);
-    grain.blueMin = ofMap(ofGetMouseY(), 0, ofGetHeight(), 255, 10);
+    grain.redTarget = ofMap(ofGetMouseX(), 0, ofGetWidth(), 255, 10);
+    grain.blueTarget = ofMap(ofGetMouseX(), 0, ofGetWidth(), 10, 255);
+    grain.spread = ofMap(ofGetMouseY(), 0, ofGetHeight(), 5, 127);
     
 }
 
