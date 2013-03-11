@@ -6,11 +6,12 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofFill();
+    ofSetFrameRate(60);
     ofSetBackgroundAuto(false);
-    pictureManager.grain.redMin = 100;
-    pictureManager.grain.redMax = 200;
-    pictureManager.grain.blueMin = 100;
-    pictureManager.grain.blueMax = 200;
+    pictureManager.grain.redMin = 10;
+    pictureManager.grain.redMax = 255;
+    pictureManager.grain.blueMin = 10;
+    pictureManager.grain.blueMax = 255;
 }
 
 //--------------------------------------------------------------
@@ -22,6 +23,12 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     pictureManager.display();
+    ofSetColor(255, 255, 255);
+    ofDrawBitmapString("Red", 20, ofGetHeight()/2);
+    ofDrawBitmapString("Blue", 600, ofGetHeight()/2);
+    ofDrawBitmapString("More constraint", ofGetWidth()/2-40, 20);
+    ofDrawBitmapString("Less constraint", ofGetWidth()/2-36, 440);
+//    ofDrawBitmapString(ofToString(ofGetFrameRate(), 2), 20, 20);
     
     cout << "duration: " << pictureManager.durationInMillis << " mouse: " << ofGetMouseX() << " " << ofGetMouseY() << endl;
 }
