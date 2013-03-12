@@ -8,6 +8,7 @@ void testApp::setup(){
     ofFill();
     ofSetFrameRate(60);
     ofSetBackgroundAuto(false);
+    ofSetVerticalSync(true);
     pictureManager.grain.redTarget = 127;
     pictureManager.grain.blueTarget = 127;
     pictureManager.grain.spread = 127;
