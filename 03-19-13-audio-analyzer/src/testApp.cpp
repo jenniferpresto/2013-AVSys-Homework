@@ -6,24 +6,33 @@ void testApp::setup(){
     ofSetColor(255);
     soundStream.setup(this, 0, 1, 44100, 256, 4);
     ofSetVerticalSync(true);
-    ofSetCircleResolution(100);
     
-    volume = 0;
+    volumeSmooth = 0;
+    pitchSmooth = 0;
     hertz = 0;
     
     rectangleTopY = ofGetHeight()/2-50;
     rectangleRightX = ofGetWidth()/2+50;
     rectangleBottomY = ofGetHeight()/2+50;
     rectangleLeftX = ofGetWidth()/2-50;
+    
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+    float hue = ofMap(pitchSmooth, 1000, 2000, 180, 360, true);
+    float sat = 360;
+    float bri = 100;
+    
+    bgColor.setHsb(hue, sat, bri);
+    ofBackground(bgColor);
     
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    
+    ofBackground(bgColor);
     
     //rectangle is basic shape;
     ofBeginShape();
@@ -99,19 +108,23 @@ void testApp::dragEvent(ofDragInfo dragInfo){
 void testApp::audioIn(float * input, int bufferSize, int nChannels){
     
     float squareTotal = 0;
-    float squareRoot = 0;
+    float rms = 0;
     float zeroCrossings = 0; //note: changing from int to float improved accuracy significantly
     
     // calculate RMS value (i.e., volume)--------------
     for (int i = 0; i < bufferSize; i++){
         //cout << input[i] << endl;
         // first calcuation RMS of values
-        squareTotal += (input[i]*input[i]);
+        squareTotal += input[i]*input[i];
         // or squareTotal += powf(intput[i], 2);
     }
     
     // calculate final RMS value
-    squareRoot = sqrt(squareTotal/bufferSize);
+    rms = sqrt(squareTotal/bufferSize);
+    
+    // assign value to volume (with smoothing)
+    volumeSmooth = 0.9f * volumeSmooth + 0.1f * rms;
+
     
     // calculate zero crossings (i.e., pitch)-----------
     for (int i = 0; i < bufferSize-1; i++){
@@ -120,16 +133,16 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
         }
     }
 
-    // calculate hertz
-    hertz = (float)(zeroCrossings/2) * (float)(44100/bufferSize); // casting here makes little difference
+    // calculate hertz, smooth pitch
+    // does not include low-pass filtering from example
+    hertz = (float)(zeroCrossings * 0.5) * (float)(44100.0/bufferSize); // casting here makes little difference
+    pitchSmooth = 0.95f * pitchSmooth + 0.05 * hertz;
 
     
     // print values to console
-    cout << "RMS Value: " << squareRoot << "  Zero Crossings: " << zeroCrossings << endl;
+    cout << "RMS Value: " << rms << "  Zero Crossings: " << zeroCrossings << endl;
     cout << "Hertz: " << hertz << endl;
+    cout << "Volume (smooth): " << volumeSmooth << endl;
     
-    
-    // assign value to volume
-    volume = squareRoot;
     
 }

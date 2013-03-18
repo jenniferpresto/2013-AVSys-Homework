@@ -23,12 +23,15 @@ public:
     
     ofSoundStream soundStream;
     
-    float volume;
+    float volumeSmooth;
+    float pitchSmooth;
     float hertz;
     
     float rectangleTopY;
     float rectangleRightX;
     float rectangleBottomY;
     float rectangleLeftX;
+    
+    ofColor bgColor;
     
 };
