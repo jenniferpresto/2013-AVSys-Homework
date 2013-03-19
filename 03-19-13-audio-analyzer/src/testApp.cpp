@@ -32,30 +32,28 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     
-    ofBackground(bgColor);
-    
-    //rectangle is basic shape;
+    //100 px by 100 px square is basic shape;
     ofBeginShape();
-    //top of rectangle
-    ofVertex(rectangleLeftX, rectangleTopY);
-    ofVertex(rectangleLeftX+25, rectangleTopY);
-    ofVertex(rectangleLeftX+50, rectangleTopY);
-    ofVertex(rectangleRightX-25, rectangleTopY);
-    ofVertex(rectangleRightX, rectangleTopY);
-    //right side of rectangle
-    ofVertex(rectangleRightX, rectangleTopY+25);
-    ofVertex(rectangleRightX, rectangleTopY+50);
-    ofVertex(rectangleRightX, rectangleBottomY-25);
-    ofVertex(rectangleRightX, rectangleBottomY);
-    //bottom of rectangle
-    ofVertex(rectangleRightX-25, rectangleBottomY);
-    ofVertex(rectangleRightX-50, rectangleBottomY);
-    ofVertex(rectangleLeftX+25, rectangleBottomY);
-    ofVertex(rectangleLeftX, rectangleBottomY);
-    //left side of rectangle
-    ofVertex(rectangleLeftX, rectangleBottomY-25);
-    ofVertex(rectangleLeftX, rectangleBottomY-50);
-    ofVertex(rectangleLeftX, rectangleTopY + 25);
+    //top of square
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX, 256, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY, 128, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX+25, 448, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY, 256, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX+50, 512, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY, 64, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX-25, 576, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY, 256, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX, 768, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY, 128, true));
+    //right side of square
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX, 640, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY+25, 320, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX, 832, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY+50, 384, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX, 640, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY-25, 448, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX, 768, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY, 640, true));
+    //bottom of square
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX-25, 576, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY, 512, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleRightX-50, 512, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY, 704, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX+25, 448, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY, 512, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX, 256, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY, 640, true));
+    //left side of square
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX, 384, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY-25, 448, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX, 192, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleBottomY-50, 384, true));
+    ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX, 384, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY+25, 320, true));
     ofEndShape();
     
 }
