@@ -16,13 +16,16 @@ void testApp::setup(){
     rectangleBottomY = ofGetHeight()/2+50;
     rectangleLeftX = ofGetWidth()/2-50;
     
+    face.loadImage("face_only.png");
+    face.setAnchorPercent(0.5, 0.5);
+    
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     float hue = ofMap(pitchSmooth, 1000, 2000, 180, 360, true);
     float sat = 360;
-    float bri = 100;
+    float bri = ofMap(volumeSmooth, .002, .01, 0, 100, true);
     
     bgColor.setHsb(hue, sat, bri);
     ofBackground(bgColor);
@@ -56,6 +59,9 @@ void testApp::draw(){
     ofVertex(ofMap(volumeSmooth, 0.002, 0.2, rectangleLeftX, 384, true), ofMap(volumeSmooth, 0.002, 0.2, rectangleTopY+25, 320, true));
     ofEndShape();
     
+    if (volumeSmooth > 0.2) {
+        face.draw(ofGetWidth()/2, ofGetHeight()/2 + 30);
+    }
 }
 
 //--------------------------------------------------------------

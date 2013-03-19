@@ -33,5 +33,6 @@ public:
     float rectangleLeftX;
     
     ofColor bgColor;
+    ofImage face;
     
 };
