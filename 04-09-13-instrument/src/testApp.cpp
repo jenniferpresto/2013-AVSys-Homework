@@ -6,6 +6,10 @@
  Assignment:
  Create an instrument based on
  data from the computer's camera.
+ 
+ This version:
+ The more movement in the screen, the
+ more instruments are introduced.
  */
 
 #include "testApp.h"
@@ -15,24 +19,28 @@ void testApp::setup(){
     ofBackground(255, 255, 255);
     
     drums.loadSound("drums.mp3");
-    cowbell.loadSound("cowbell.mp3");
+    conga.loadSound("conga.mp3");
+    bass.loadSound("bass.mp3");
+    guitar.loadSound("guitar.mp3");
     
     drums.setLoop(true);
-    cowbell.setLoop(true);
+    conga.setLoop(true);
+    bass.setLoop(true);
+    guitar.setLoop(true);
 
     drums.play();
-    cowbell.play();
+    conga.play();
+    bass.play();
+    guitar.play();
 
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    if(mouseY>ofGetHeight()*0.5){
-        cowbell.setVolume(1);
-    }
-    else {
-        cowbell.setVolume(0);
-    }
+//    if(mouseY>ofGetHeight()*0.5){
+//    }
+//    else {
+//    }
 
 }
 

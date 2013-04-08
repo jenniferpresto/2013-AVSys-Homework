@@ -21,5 +21,7 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
     ofSoundPlayer drums;
-    ofSoundPlayer cowbell;
+    ofSoundPlayer conga;
+    ofSoundPlayer bass;
+    ofSoundPlayer guitar;
 };
