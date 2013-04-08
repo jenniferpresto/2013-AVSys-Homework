@@ -19,9 +19,29 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+    // general variables
+        ofTrueTypeFont helvetica;
+        ofImage bgPic;
+    
+    // music variables
 		
-    ofSoundPlayer drums;
-    ofSoundPlayer conga;
-    ofSoundPlayer bass;
-    ofSoundPlayer guitar;
+        ofSoundPlayer drums;
+        ofSoundPlayer conga;
+        ofSoundPlayer bass;
+        ofSoundPlayer guitar;
+    
+    // computer vision variables
+    
+        int threshold;
+        int movement;
+        int width, height;
+    
+        float averageRed;
+    
+        ofVideoGrabber cam;
+        ofxCvColorImage camColorCv;
+        ofxCvGrayscaleImage camGrayCv;
+        ofxCvGrayscaleImage camPrevGrayCv;
+        ofxCvGrayscaleImage camDiff;
 };
