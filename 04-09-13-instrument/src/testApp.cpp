@@ -35,10 +35,21 @@ void testApp::setup(){
     bass.setLoop(true);
     guitar.setLoop(true);
 
+    drums.setVolume(0);
+    conga.setVolume(0);
+    bass.setVolume(0);
+    guitar.setVolume(0);
+    
     drums.play();
     conga.play();
     bass.play();
     guitar.play();
+    
+    bDrums = false;
+    bConga = false;
+    bBass = false;
+    bGuitar = false;
+
     
     // computer vision setup
     
@@ -56,8 +67,6 @@ void testApp::setup(){
     camGrayCv.allocate(width, height);
     camPrevGrayCv.allocate(width, height);
     camDiff.allocate(width, height);
-    
-
 }
 
 //--------------------------------------------------------------
@@ -71,8 +80,66 @@ void testApp::update(){
         camDiff.threshold(threshold);
         camPrevGrayCv = camGrayCv;
         
+        prevMovement = movement;
         movement = camDiff.countNonZeroInRegion(0, 0, width, height);
+        buildMovement = 0.96 * prevMovement + 0.04 * movement;
     }
+    cout << "average red: " << averageRed << "  movement: " << movement << endl;
+    cout << "volume multiplier: " << volumeMultiplier << endl;
+
+    volumeMultiplier = ofMap(averageRed, 60, 110, 0.0f, 1.0f, true);
+    
+    if(buildMovement < 100){
+        bDrums = false;
+        bConga = false;
+        bBass = false;
+        bGuitar = false;
+        drums.setVolume(0);
+        conga.setVolume(0);
+        bass.setVolume(0);
+        guitar.setVolume(0);
+    }
+    if(buildMovement >= 100 && buildMovement < 1500){
+        bDrums = true;
+        bConga = false;
+        bBass = false;
+        bGuitar = false;
+        drums.setVolume(1*volumeMultiplier);
+        conga.setVolume(0);
+        bass.setVolume(0);
+        guitar.setVolume(0);
+    }
+    if(buildMovement >= 1500 && buildMovement < 5500){
+        bDrums = true;
+        bConga = true;
+        bBass = false;
+        bGuitar = false;
+        drums.setVolume(1*volumeMultiplier);
+        conga.setVolume(1*volumeMultiplier);
+        bass.setVolume(0);
+        guitar.setVolume(0);
+    }
+    if(buildMovement >= 5500 && buildMovement < 10000){
+        bDrums = true;
+        bConga = true;
+        bBass = true;
+        bGuitar = false;
+        drums.setVolume(1*volumeMultiplier);
+        conga.setVolume(1*volumeMultiplier);
+        bass.setVolume(1*volumeMultiplier);
+        guitar.setVolume(0);
+    }
+    if(buildMovement >= 10000){
+        bDrums = true;
+        bConga = true;
+        bBass = true;
+        bGuitar = true;
+        drums.setVolume(1*volumeMultiplier);
+        conga.setVolume(1*volumeMultiplier);
+        bass.setVolume(1*volumeMultiplier);
+        guitar.setVolume(1*volumeMultiplier);
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -83,7 +150,7 @@ void testApp::draw(){
     // draw the difference picture showing movement
     camDiff.draw(40,40);
     
-    // draw the picture showing the redness
+    // draw the picture using only red values
     unsigned char * pixels = camColorCv.getPixels();
     averageRed = 0;
     for(int i = 0; i < camColorCv.width; i++){
@@ -95,8 +162,24 @@ void testApp::draw(){
         }
     }
     averageRed /= camColorCv.width * camColorCv.height;
-    cout << "average red: " << averageRed << "  movement: " << movement << endl;
     
+    // output two variables created
+    ofSetColor(255, 255, 255);
+    helvetica.drawString("Funkiness level: " + ofToString((int)buildMovement), 400, 80);
+    if(bDrums){
+        helvetica.drawString("drums", 400, 140);
+    }
+    if(bConga){
+        helvetica.drawString("conga", 400, 180);
+    }
+    if(bBass){
+        helvetica.drawString("bass", 400, 220);
+    }
+    if(bGuitar){
+        helvetica.drawString("guitar", 400, 260);
+    }
+    helvetica.drawString("The volume is " + ofToString((int)(ofMap(volumeMultiplier, 0.0, 1.0, 1, 11, true))) + ".", 400, 360);
+    helvetica.drawString("(This goes to 11).", 400, 400);
 
 }
 

@@ -31,10 +31,19 @@ class testApp : public ofBaseApp{
         ofSoundPlayer bass;
         ofSoundPlayer guitar;
     
+        bool bDrums;
+        bool bConga;
+        bool bBass;
+        bool bGuitar;
+    
+        float volumeMultiplier;
+    
     // computer vision variables
     
         int threshold;
+        int prevMovement;
         int movement;
+        float buildMovement;
         int width, height;
     
         float averageRed;
