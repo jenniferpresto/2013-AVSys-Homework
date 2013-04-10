@@ -55,6 +55,8 @@ void testApp::setup(){
     
     threshold = 52;
     movement = 0;
+    buildMovement = 0;
+    prevMovement = 0;
     averageRed = 0;
     
     cam.initGrabber(320, 240);

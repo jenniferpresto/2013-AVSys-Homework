@@ -41,8 +41,8 @@ class testApp : public ofBaseApp{
     // computer vision variables
     
         int threshold;
-        int prevMovement;
-        int movement;
+        float prevMovement;
+        float movement;
         float buildMovement;
         int width, height;
     
