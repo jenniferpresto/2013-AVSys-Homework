@@ -7,9 +7,10 @@
  Create an instrument based on
  data from the computer's camera.
  
- This version:
- The more movement in the screen, the
- more instruments are introduced.
+ The more movement on the screen, the
+ more instruments are introduced. The amount
+ of overall red in the screen controls
+ the volume.
  */
 
 #include "testApp.h"
@@ -18,9 +19,9 @@
 void testApp::setup(){
     
     // general setup
+    
     ofBackground(255, 255, 255);
     helvetica.loadFont("helvetica.otf", 24);
-    bgPic.allocate(600, 800, OF_IMAGE_COLOR);
     bgPic.loadImage("bgPic.png");
     
     // music setup
@@ -49,7 +50,6 @@ void testApp::setup(){
     bConga = false;
     bBass = false;
     bGuitar = false;
-
     
     // computer vision setup
     
@@ -75,17 +75,27 @@ void testApp::update(){
     cam.update();
     if(cam.isFrameNew()){
         camColorCv.setFromPixels(cam.getPixels(), width, height);
+        camColorCv.mirror(false, true);
         camGrayCv = camColorCv;
         camDiff.absDiff(camGrayCv, camPrevGrayCv);
         camDiff.threshold(threshold);
         camPrevGrayCv = camGrayCv;
         
-        prevMovement = movement;
+        prevMovement = buildMovement;
         movement = camDiff.countNonZeroInRegion(0, 0, width, height);
         buildMovement = 0.96 * prevMovement + 0.04 * movement;
     }
-    cout << "average red: " << averageRed << "  movement: " << movement << endl;
-    cout << "volume multiplier: " << volumeMultiplier << endl;
+    
+    // small delay at beginning to give initial frames time to load,
+    // so there isn't an immediate burst of sound
+    
+    if(ofGetElapsedTimeMillis() < 5000){
+        buildMovement = 0;
+    }
+    
+//    cout << ofGetElapsedTimeMillis() << endl;
+//    cout << "average red: " << averageRed << "  movement: " << movement << endl;
+//    cout << "volume multiplier: " << volumeMultiplier << endl;
 
     volumeMultiplier = ofMap(averageRed, 60, 110, 0.0f, 1.0f, true);
     
