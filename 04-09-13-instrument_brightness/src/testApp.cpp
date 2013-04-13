@@ -35,7 +35,7 @@ void testApp::setup(){
     conga.setLoop(true);
     bass.setLoop(true);
     guitar.setLoop(true);
-    
+
     drums.setVolume(0);
     conga.setVolume(0);
     bass.setVolume(0);
@@ -58,6 +58,7 @@ void testApp::setup(){
     buildMovement = 0;
     prevMovement = 0;
     averageRed = 0;
+    averageBright = 0;
     
     cam.initGrabber(320, 240);
     cam.setDesiredFrameRate(30);
@@ -73,7 +74,7 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    
+
     cam.update();
     if(cam.isFrameNew()){
         camColorCv.setFromPixels(cam.getPixels(), width, height);
@@ -95,11 +96,13 @@ void testApp::update(){
         buildMovement = 0;
     }
     
-    //    cout << ofGetElapsedTimeMillis() << endl;
-    //    cout << "average red: " << averageRed << "  movement: " << movement << endl;
-    //    cout << "volume multiplier: " << volumeMultiplier << endl;
-    
-    volumeMultiplier = ofMap(averageRed, 60, 110, 0.0f, 1.0f, true);
+//    cout << ofGetElapsedTimeMillis() << endl;
+//    cout << "average red: " << averageRed << "  movement: " << movement << endl;
+    cout << "average brightness: " << averageBright<< "  movement: " << movement << endl;
+//    cout << "volume multiplier: " << volumeMultiplier << endl;
+
+//    volumeMultiplier = ofMap(averageRed, 60, 110, 0.0f, 1.0f, true);
+    volumeMultiplier = ofMap(averageBright, 60, 110, 0.0f, 1.0f, true);
     
     if(buildMovement < 100){
         bDrums = false;
@@ -162,6 +165,7 @@ void testApp::draw(){
     // draw the difference picture showing movement
     camDiff.draw(40,40);
     
+    /*
     // draw the picture using only red values
     unsigned char * pixels = camColorCv.getPixels();
     averageRed = 0;
@@ -174,7 +178,21 @@ void testApp::draw(){
         }
     }
     averageRed /= camColorCv.width * camColorCv.height;
+     */
     
+    // draw a rectangle showing average brightness
+    unsigned char * pixels = camGrayCv.getPixels();
+    averageBright = 0;
+    for(int i = 0; i < camGrayCv.width; i++){
+        for(int j = 0; j < camGrayCv.height; j++){
+            int brightness = pixels[(j * camGrayCv.width + i)];
+            averageBright += brightness;
+        }
+    }
+    averageBright /= camGrayCv.width * camGrayCv.height;
+    ofSetColor(averageBright);
+    ofRect(40, 320, camGrayCv.width, camGrayCv.height);
+
     // output two variables created
     ofSetColor(255, 255, 255);
     helvetica.drawString("Funkiness level: " + ofToString((int)buildMovement), 400, 80);
@@ -192,50 +210,50 @@ void testApp::draw(){
     }
     helvetica.drawString("The volume is " + ofToString((int)(ofMap(volumeMultiplier, 0.0, 1.0, 1, 11, true))) + ".", 400, 360);
     helvetica.drawString("(This goes to 11).", 400, 400);
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::gotMessage(ofMessage msg){
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo){ 
-    
+
 }
