@@ -119,7 +119,7 @@ void testApp::update(){
         bConga = false;
         bBass = false;
         bGuitar = false;
-        drums.setVolume(1*volumeMultiplier);
+        drums.setVolume(1 * volumeMultiplier);
         conga.setVolume(0);
         bass.setVolume(0);
         guitar.setVolume(0);
@@ -129,8 +129,8 @@ void testApp::update(){
         bConga = true;
         bBass = false;
         bGuitar = false;
-        drums.setVolume(1*volumeMultiplier);
-        conga.setVolume(1*volumeMultiplier);
+        drums.setVolume(1 * volumeMultiplier);
+        conga.setVolume(1 * volumeMultiplier);
         bass.setVolume(0);
         guitar.setVolume(0);
     }
@@ -139,9 +139,9 @@ void testApp::update(){
         bConga = true;
         bBass = true;
         bGuitar = false;
-        drums.setVolume(1*volumeMultiplier);
-        conga.setVolume(1*volumeMultiplier);
-        bass.setVolume(1*volumeMultiplier);
+        drums.setVolume(1 * volumeMultiplier);
+        conga.setVolume(1 * volumeMultiplier);
+        bass.setVolume(1 * volumeMultiplier);
         guitar.setVolume(0);
     }
     if(buildMovement >= 10000){
@@ -149,10 +149,10 @@ void testApp::update(){
         bConga = true;
         bBass = true;
         bGuitar = true;
-        drums.setVolume(1*volumeMultiplier);
-        conga.setVolume(1*volumeMultiplier);
-        bass.setVolume(1*volumeMultiplier);
-        guitar.setVolume(1*volumeMultiplier);
+        drums.setVolume(1* volumeMultiplier);
+        conga.setVolume(1 * volumeMultiplier);
+        bass.setVolume(1 * volumeMultiplier);
+        guitar.setVolume(1 * volumeMultiplier);
     }
     
 }
@@ -180,7 +180,8 @@ void testApp::draw(){
     averageRed /= camColorCv.width * camColorCv.height;
      */
     
-    // draw a rectangle showing average brightness
+    
+    // using brightness values instead of red values
     unsigned char * pixels = camGrayCv.getPixels();
     averageBright = 0;
     for(int i = 0; i < camGrayCv.width; i++){
@@ -190,9 +191,13 @@ void testApp::draw(){
         }
     }
     averageBright /= camGrayCv.width * camGrayCv.height;
+    // draw a rectangle showing the average brightness or...
     ofSetColor(averageBright);
     ofRect(40, 320, camGrayCv.width, camGrayCv.height);
-
+    // show the black-and-white version of the picture
+    camGrayCv.draw(40, 320);
+    
+     
     // output two variables created
     ofSetColor(255, 255, 255);
     helvetica.drawString("Funkiness level: " + ofToString((int)buildMovement), 400, 80);
