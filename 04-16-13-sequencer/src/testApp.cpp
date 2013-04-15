@@ -1,3 +1,17 @@
+/*
+ Jennifer Presto
+ AVSys Homework
+ 04-16-13
+ 
+ Assignment:
+ Create a digital sequencer.
+ 
+ Oscillator code adapted from in-class examples.
+ Draw circles of varying sizes; ball plays the
+ corresponding notes when it hits them.
+ */
+
+
 #include "testApp.h"
 
 //--------------------------------------------------------------
@@ -12,11 +26,15 @@ void testApp::setup(){
     
     playerBallX = 20;
     playerBallY = 20;
-    playerBallXSpeed = 2;
-    playerBallYSpeed = 3;
+    playerBallXSpeed = 5;
+    playerBallYSpeed = 7;
     playerBallRadius = 20;
 
     currentSize = 2;
+    
+    ofNoFill();
+    
+    backgroundPic.loadImage("sequencer_background.jpg");
 }
 
 //--------------------------------------------------------------
@@ -37,21 +55,72 @@ void testApp::update(){
         playerBallY = playerBallRadius;
         playerBallYSpeed *= -1;
     }
+    
+    playerBallX += playerBallXSpeed;
+    playerBallY+= playerBallYSpeed;
 
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    backgroundPic.draw(0,0);
+    ofNoFill();
     for(int i=0; i<spots.size(); i++){
         spots[i].display();
     }
+    ofFill();
     ofSetColor(195, 197, 53);
     ofCircle(playerBallX, playerBallY, 20);
+    
+    ofSetColor(255);
+    ofDrawBitmapString("Press 1 through 5 to change the circles sizes.", 10, 30);
+    ofDrawBitmapString("Use the arrow keys to change the speed of the PlayerBall.", 10, 60);
+    ofDrawBitmapString("Current Circle Size: " + ofToString(currentSize), 10, 90);
+    ofDrawBitmapString("PlayerBall X speed: " + ofToString(playerBallXSpeed), 10, 120);
+    ofDrawBitmapString("PlayerBall Y speed: " + ofToString(playerBallYSpeed), 10, 150);
+    
 
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
+    switch(key){
+        case OF_KEY_RIGHT:
+            playerBallXSpeed++;
+            break;
+            
+        case OF_KEY_LEFT:
+            playerBallXSpeed--;
+            break;
+            
+        case OF_KEY_UP:
+            playerBallYSpeed--;
+            break;
+            
+        case OF_KEY_DOWN:
+            playerBallYSpeed++;
+            break;
+            
+        case '1':
+            currentSize = 1;
+            break;
+            
+        case '2':
+            currentSize = 2;
+            break;
+            
+        case '3':
+            currentSize = 3;
+            break;
+            
+        case '4':
+            currentSize = 4;
+            break;
+            
+        case '5':
+            currentSize = 5;
+            break;
+    }
 
 }
 
@@ -114,7 +183,7 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
 	}
     
     for(int i = 0; i<spots.size(); i++){
-        if (ofDist(mouseX, mouseY, spots[i].xPos, spots[i].yPos) < spots[i].radius) {
+        if (ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos) < spots[i].radius+playerBallRadius) {
             notes[i].addToSoundBuffer(output, bufferSize);
             notesPlayed++;
         }

@@ -34,4 +34,6 @@ class testApp : public ofBaseApp{
 
         int currentSize;
     
+        ofImage backgroundPic;
+    
 };

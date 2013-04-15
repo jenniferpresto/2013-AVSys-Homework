@@ -20,7 +20,7 @@ soundCircle::soundCircle(int x, int y, int size){
 
 // ----------------------------------
 void soundCircle::display(){
-    for(int i=radius; i>=1; i--){
+    for(int i=radius; i>=1; i-=10){
         ofSetColor(ofRandom(255), ofRandom(255), ofRandom(255));
         ofCircle(xPos, yPos, i);
     }
