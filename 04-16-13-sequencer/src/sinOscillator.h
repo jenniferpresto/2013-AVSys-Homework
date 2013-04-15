@@ -13,17 +13,22 @@
 #include "ofMain.h"
 
 class sinOscillator{
-    public:
+public:
     
-    void setup();
-    void setFrequency(float newFrequency);
-    void addToSoundBuffer(float * buffer, int bufferSize);
+	void	setup();
+	void	setFrequency(float newFrequency);
+	void	setVolume(float newVolume);
+	void	addToSoundBuffer(float * buffer, int bufferSize);
+	
+	float 	pan;
+	int		sampleRate;
+	float 	volume;
+	float	frequency;
     
-    float frequency;
+	float	angle;
+	float	angleAdder;
     
-    float angle;
-    float angleAdder;
-    
-}
+	
+};
 
 #endif /* defined(___4_16_13_sequencer__sinOscillator__) */

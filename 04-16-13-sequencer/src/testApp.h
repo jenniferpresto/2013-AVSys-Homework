@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "sinOscillator.h"
+#include "soundCircle.h"
+
 
 class testApp : public ofBaseApp{
 	public:
@@ -19,13 +22,16 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         void audioRequested(float * input, int bufferSize, int nChannels);
-        <vector> sinOscillator notes;
-        <vector> soundCircles spots;
-        
-        float playerX;
-        float playerY;
-        float playerXSpeed;
-        float playerYSpeed;
     
+        vector<sinOscillator> notes;
+        vector<soundCircle> spots;
+        
+        float playerBallX;
+        float playerBallY;
+        float playerBallXSpeed;
+        float playerBallYSpeed;
+        int playerBallRadius;
+
+        int currentSize;
     
 };
