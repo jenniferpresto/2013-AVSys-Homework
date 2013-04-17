@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "emptyExample.app"
+               BuildableName = "04-16-13-sequencer.app"
                BlueprintName = "04-16-13-sequencer"
                ReferencedContainer = "container:04-16-13-sequencer.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "emptyExample.app"
+            BuildableName = "04-16-13-sequencer.app"
             BlueprintName = "04-16-13-sequencer"
             ReferencedContainer = "container:04-16-13-sequencer.xcodeproj">
          </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "emptyExample.app"
+            BuildableName = "04-16-13-sequencer.app"
             BlueprintName = "04-16-13-sequencer"
             ReferencedContainer = "container:04-16-13-sequencer.xcodeproj">
          </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "emptyExample.app"
+            BuildableName = "04-16-13-sequencer.app"
             BlueprintName = "04-16-13-sequencer"
             ReferencedContainer = "container:04-16-13-sequencer.xcodeproj">
          </BuildableReference>

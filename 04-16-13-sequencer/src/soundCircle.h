@@ -21,7 +21,8 @@ public:
     float radius;
     float freq;
     
-    void display();
+    void display(bool activated);
+    bool active;
     
     soundCircle(int x, int y, int size); // constructor
     

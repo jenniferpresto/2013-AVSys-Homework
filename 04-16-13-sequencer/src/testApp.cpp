@@ -29,7 +29,7 @@ void testApp::setup(){
     playerBallXSpeed = 5;
     playerBallYSpeed = 7;
     playerBallRadius = 20;
-
+    
     currentSize = 2;
     
     ofNoFill();
@@ -58,7 +58,14 @@ void testApp::update(){
     
     playerBallX += playerBallXSpeed;
     playerBallY+= playerBallYSpeed;
-
+    
+    for(int i = 0; i<spots.size(); i++){
+        if (ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos) < spots[i].radius+playerBallRadius) {
+            spots[i].active = true;
+        } else{
+            spots[i].active = false;
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -66,7 +73,7 @@ void testApp::draw(){
     backgroundPic.draw(0,0);
     ofNoFill();
     for(int i=0; i<spots.size(); i++){
-        spots[i].display();
+        spots[i].display(spots[i].active);
     }
     ofFill();
     ofSetColor(195, 197, 53);
@@ -79,12 +86,14 @@ void testApp::draw(){
     ofDrawBitmapString("PlayerBall X speed: " + ofToString(playerBallXSpeed), 10, 120);
     ofDrawBitmapString("PlayerBall Y speed: " + ofToString(playerBallYSpeed), 10, 150);
     
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     switch(key){
+            
+        // arrow keys affect PlayerBall's speed
         case OF_KEY_RIGHT:
             playerBallXSpeed++;
             break;
@@ -101,6 +110,7 @@ void testApp::keyPressed(int key){
             playerBallYSpeed++;
             break;
             
+        // number keys determine size of soundCircles
         case '1':
             currentSize = 1;
             break;
@@ -120,23 +130,30 @@ void testApp::keyPressed(int key){
         case '5':
             currentSize = 5;
             break;
+            
+        // "x" key clears the screen
+        case 'x':
+        case 'X':
+            spots.erase(spots.begin(), spots.end());
+            notes.erase(notes.begin(), notes.end());
+            break;
     }
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
@@ -145,32 +162,32 @@ void testApp::mousePressed(int x, int y, int button){
     // add new circle and corresponding note
     spots.push_back(soundCircle(mouseX, mouseY, currentSize));
     notes.push_back(sinOscillator());
-
+    
     // set up latest note separately
     notes[notes.size()-1].setup();
-    notes[notes.size()-1].setVolume(1.0);
-    notes[notes.size()-1].setFrequency(ofRandom(200, 500));
-
+    notes[notes.size()-1].setVolume(0.0);
+    notes[notes.size()-1].setFrequency((int)(ofRandom(200, 500)));
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::gotMessage(ofMessage msg){
-
+    
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
-
+void testApp::dragEvent(ofDragInfo dragInfo){
+    
 }
 
 //--------------------------------------------------------------
@@ -184,15 +201,20 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
     
     for(int i = 0; i<spots.size(); i++){
         if (ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos) < spots[i].radius+playerBallRadius) {
+            notes[i].setVolume(ofMap(ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos), 0, spots[i].radius, 1.0, 0.0));
             notes[i].addToSoundBuffer(output, bufferSize);
             notesPlayed++;
         }
     }
-
+    
+    for(int i=0; i<spots.size(); i++){
+        notes[i].setVolume(0.0);
+    }
+    
     notesPlayed = MAX(notesPlayed, 4);
     for (int i = 0; i < bufferSize; i++){ // avgerage all the inputs so the sound never goes over 1.0
 		output[i*nChannels    ] /= notesPlayed;
 		output[i*nChannels + 1] /= notesPlayed;
 	}
-
+    
 }
