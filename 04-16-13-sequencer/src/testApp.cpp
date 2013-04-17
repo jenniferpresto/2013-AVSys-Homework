@@ -85,6 +85,7 @@ void testApp::draw(){
     ofDrawBitmapString("Current Circle Size: " + ofToString(currentSize), 10, 90);
     ofDrawBitmapString("PlayerBall X speed: " + ofToString(playerBallXSpeed), 10, 120);
     ofDrawBitmapString("PlayerBall Y speed: " + ofToString(playerBallYSpeed), 10, 150);
+    ofDrawBitmapString("Hit 'x' to reset the screen.", 10, 180);
     
     
 }
