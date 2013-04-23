@@ -202,16 +202,15 @@ void testApp::audioRequested(float * output, int bufferSize, int nChannels){
     
     for(int i = 0; i<spots.size(); i++){
         if (ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos) < spots[i].radius+playerBallRadius) {
-            notes[i].setVolume(ofMap(ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos), 0, spots[i].radius, 1.0, 0.0));
+            notes[i].setVolume(ofMap(ofDist(playerBallX, playerBallY, spots[i].xPos, spots[i].yPos), 0, spots[i].radius + playerBallRadius, 1.0, 0.0));
             notes[i].addToSoundBuffer(output, bufferSize);
             notesPlayed++;
         }
+//        else {
+//            notes[i].setVolume(0.0);
+//        }
     }
-    
-    for(int i=0; i<spots.size(); i++){
-        notes[i].setVolume(0.0);
-    }
-    
+        
     notesPlayed = MAX(notesPlayed, 4);
     for (int i = 0; i < bufferSize; i++){ // avgerage all the inputs so the sound never goes over 1.0
 		output[i*nChannels    ] /= notesPlayed;
