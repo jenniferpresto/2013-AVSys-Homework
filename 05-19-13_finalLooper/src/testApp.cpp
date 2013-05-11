@@ -11,10 +11,18 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
     
+    // when press spacebar, capture the background
+    if(ofGetKeyPressed(' ')){
+        if(grabber.isFrameNew()){
+            background.setFromPixels(grabber.getPixelsRef());
+        }
+    }
+    
+    
+    // when press a, record from camera (each frame adds an image to vector)
     if(ofGetKeyPressed('a')){
         
         if(grabber.isFrameNew()){
-            
             ofImage temp;
             temp.setUseTexture(false); // none have texture; stores only in RAM
             temp.setFromPixels(grabber.getPixelsRef());
@@ -33,6 +41,8 @@ void testApp::draw(){
         displayImage.setFromPixels(images[whichImage].getPixelsRef());
         displayImage.draw(320,0);
     }
+    
+    background.draw(640,0);
     
 }
 
