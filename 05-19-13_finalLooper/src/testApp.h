@@ -20,13 +20,27 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    ofVideoGrabber grabber;
-    vector<ofImage> images;
-    ofImage displayImage;
-    ofImage background;
-    ofxCvColorImage savedBackground;
+    int camWidth = 320;
+    int camHeight = 240;
     
-    ofxCvColorImage recordedImage;
+    // non ofxOpenCv stuff
+    ofVideoGrabber grabber;
+    
+    // ofxOpenCv stuff
+    // color images
+    vector<ofxCvColorImage> images;
+    ofxCvColorImage displayImage;
+    ofxCvColorImage background;
+    ofxCvGrayscaleImage bwBackground;
+    
+    // black-and-white images
+    ofxCvGrayscaleImage bwDisplayImage;
+    ofxCvGrayscaleImage displayImageDiff;
+    
+    // cut-out image
+//    ofImage cutOutImage;
+    
+    ofImage tulips;
     
     
 };
