@@ -36,6 +36,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    
     // draw SC picture just normally
     ofSetColor(255, 255, 255);
     sc_flora.draw(ofGetWidth()*0.5 - sc_flora.width*0.5, 30);

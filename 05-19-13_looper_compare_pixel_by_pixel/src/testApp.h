@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxOpenCv.h"
+//#include "ofxOpenCv.h"
 
 class testApp : public ofBaseApp{
     
@@ -26,20 +26,15 @@ public:
     // non ofxOpenCv stuff
     ofVideoGrabber grabber;
     
-    // ofxOpenCv stuff
     // color images
-    vector<ofxCvColorImage> images;
-    ofxCvColorImage displayImage;
-    ofxCvColorImage background;
-    ofxCvGrayscaleImage bwBackground;
+    vector<ofImage> images;
+    ofImage displayImage;
+    ofImage background;
     
-    // black-and-white images
-    ofxCvGrayscaleImage bwDisplayImage;
-    ofxCvGrayscaleImage displayImageDiff;
+    // threshold of comparison
+    float threshold;
     
-    // cut-out image
-//    ofImage cutOutImage;
-    
+    // fake (delightful!) background for now
     ofImage tulips;
     
     
