@@ -29,6 +29,7 @@ void testApp::setup(){
     // images to be used
     displayImage.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
     background.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
+    displayCutOut.allocate(camWidth, camHeight, OF_IMAGE_COLOR_ALPHA);
     tulips.loadImage("holland_tulips.jpg");
     
     // threshold for background subtractions
@@ -71,21 +72,21 @@ void testApp::draw(){
         displayImage.draw(320,0);
     }
     
-    background.draw(640,0);
+    background.draw(640,0, 320, 240);
     tulips.draw(640, 240, 320, 240);
-    ofDrawBitmapString("Press spacebar to set background", 10, 10);
     
     // create the cut-out image
     if(images.size()>0){
-        ofPixels & origPixels = displayImage.getPixelsRef(); // color live image
-        ofPixels & diffPixels = background.getPixelsRef(); // background image
+        ofPixels & origPixels = background.getPixelsRef(); // background image
+        ofPixels & diffPixels = displayImage.getPixelsRef(); // color live image
+        ofPixels & newPixels = displayCutOut.getPixelsRef(); // color cut-out moving image
         
         
         // loop through the live and background images pixel by pixel
         for(int i=0; i<camWidth; i++){
             for (int j=0; j<camHeight; j++){
-                ofColor pixellive = origPixels.getColor(i, j);
-                ofColor pixelbg = diffPixels.getColor(i, j);
+                ofColor pixelbg = origPixels.getColor(i, j);
+                ofColor pixellive = diffPixels.getColor(i, j);
                 
                 // convert RGB values of each one into a vector
                 ofVec3f p2(pixellive.r, pixellive.g, pixellive.b);
@@ -94,20 +95,29 @@ void testApp::draw(){
                 // measure the distance between the two vectors
                 // if the distance if large enough, draw a 1-pixel rectangle
                 // the same color as that point on the live screen
-                if(p1.squareDistance(p2) > threshold){
-                    ofColor cutOut = origPixels.getColor(i, j);
-                    ofSetColor(cutOut);
-                    ofRect(i+640, j+480, 1, 1);
+                
+                if(p1.squareDistance(p2)>threshold){
+                    ofColor cutOut(pixellive.r, pixellive.g, pixellive.b, 255);
+                    newPixels.setColor(i, j, cutOut);
+                } else {
+                    ofColor cutOut(0,0,0,0);
+                    newPixels.setColor(i, j, cutOut);
                 }
+                
             }
         }
-        // set the color back to white
-        ofSetColor(255);
+        displayCutOut.update();
+        displayCutOut.draw(640, 240, 320, 240);
     }
-
-	
-	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 20,15);
+    // set the color back to white
+    ofSetColor(255);
+    	
+    ofDrawBitmapString("Press spacebar to set background", 10, 10);
+	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 10, 20);
 }
+
+
+
 
 
 

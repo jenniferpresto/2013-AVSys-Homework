@@ -31,6 +31,8 @@ class testApp : public ofBaseApp{
     ofImage displayImage;
     ofImage background;
     
+    ofImage displayCutOut;
+    
     //threshold of comparison
     float threshold;
     
