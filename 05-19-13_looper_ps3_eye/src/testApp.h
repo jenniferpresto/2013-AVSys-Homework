@@ -27,11 +27,23 @@ class testApp : public ofBaseApp{
 		int 				camHeight;
     
     // color images
-    vector<ofImage> images;
-    ofImage displayImage;
     ofImage background;
     
+    vector<ofImage> images;
+    vector<ofImage> images2;
+    vector<ofImage> images3;
+    vector<ofImage> images4;
+    
+    ofImage displayImage;
+    ofImage displayImage2;
+    ofImage displayImage3;
+    ofImage displayImage4;
+    
+    
     ofImage displayCutOut;
+    ofImage displayCutOut2;
+    ofImage displayCutOut3;
+    ofImage displayCutOut4;
     
     //threshold of comparison
     float threshold;
