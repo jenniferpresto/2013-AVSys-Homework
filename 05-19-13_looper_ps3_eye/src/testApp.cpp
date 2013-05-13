@@ -157,8 +157,9 @@ void testApp::draw(){
                 ofVec3f p1(pixelbg.r, pixelbg.g, pixelbg.b);
                 
                 // measure the distance between the two vectors
-                // if the distance if large enough, draw a 1-pixel rectangle
-                // the same color as that point on the live screen
+                // if the distance if large enough, draw the pixel from the live
+                // image to the appropriate displayCutOut image; otherwise
+                // draw a clear pixel
                 
                 if(p1.squareDistance(p2)>threshold){
                     ofColor cutOut(pixellive.r, pixellive.g, pixellive.b, 255);
@@ -193,8 +194,9 @@ void testApp::draw(){
                 ofVec3f p1(pixelbg.r, pixelbg.g, pixelbg.b);
                 
                 // measure the distance between the two vectors
-                // if the distance if large enough, draw a 1-pixel rectangle
-                // the same color as that point on the live screen
+                // if the distance if large enough, draw the pixel from the live
+                // image to the appropriate displayCutOut image; otherwise
+                // draw a clear pixel
                 
                 if(p1.squareDistance(p2)>threshold){
                     ofColor cutOut(pixellive.r, pixellive.g, pixellive.b, 255);
@@ -228,8 +230,9 @@ void testApp::draw(){
                 ofVec3f p1(pixelbg.r, pixelbg.g, pixelbg.b);
                 
                 // measure the distance between the two vectors
-                // if the distance if large enough, draw a 1-pixel rectangle
-                // the same color as that point on the live screen
+                // if the distance if large enough, draw the pixel from the live
+                // image to the appropriate displayCutOut image; otherwise
+                // draw a clear pixel
                 
                 if(p1.squareDistance(p2)>threshold){
                     ofColor cutOut(pixellive.r, pixellive.g, pixellive.b, 255);
@@ -263,8 +266,9 @@ void testApp::draw(){
                 ofVec3f p1(pixelbg.r, pixelbg.g, pixelbg.b);
                 
                 // measure the distance between the two vectors
-                // if the distance if large enough, draw a 1-pixel rectangle
-                // the same color as that point on the live screen
+                // if the distance if large enough, draw the pixel from the live
+                // image to the appropriate displayCutOut image; otherwise
+                // draw a clear pixel
                 
                 if(p1.squareDistance(p2)>threshold){
                     ofColor cutOut(pixellive.r, pixellive.g, pixellive.b, 255);
