@@ -135,8 +135,9 @@ void testApp::draw(){
         displayImage4.draw(320, 480);
     }
 
-    background.draw(640,0, 320, 240);
-    tulips.draw(640, 240, 320, 240);
+    background.draw(640, 0, 320, 240);
+//    tulips.draw(640, 240, 320, 240);
+    background.draw(640, 240, 320, 240);
     
     // create the cut-out image
     if(images.size()>0){
