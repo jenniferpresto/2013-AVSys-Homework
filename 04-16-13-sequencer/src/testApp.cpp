@@ -80,7 +80,7 @@ void testApp::draw(){
     ofCircle(playerBallX, playerBallY, 20);
     
     ofSetColor(255);
-    ofDrawBitmapString("Press 1 through 5 to change the circles sizes.", 10, 30);
+    ofDrawBitmapString("Press 1 through 5 to change the circles' sizes.", 10, 30);
     ofDrawBitmapString("Use the arrow keys to change the speed of the PlayerBall.", 10, 60);
     ofDrawBitmapString("Current Circle Size: " + ofToString(currentSize), 10, 90);
     ofDrawBitmapString("PlayerBall X speed: " + ofToString(playerBallXSpeed), 10, 120);
