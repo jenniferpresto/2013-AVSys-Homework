@@ -35,32 +35,43 @@ void testApp::setup(){
 	
 	ps3eye.setFlicker(0);
     
-    // allocate background
+    // images used in creating loops
     background.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
     grayImageForAlpha.allocate(camWidth, camHeight, OF_IMAGE_GRAYSCALE);
-    
-    
-    // images to be used (set 1)
-    displayImage.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
     displayCutOut.allocate(camWidth, camHeight, OF_IMAGE_COLOR_ALPHA);
     
-    // images to be used (set 2)
-    displayImage2.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
-    displayCutOut2.allocate(camWidth, camHeight, OF_IMAGE_COLOR_ALPHA);
     
-    // images to be used (set 3)
-    displayImage3.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
-    displayCutOut3.allocate(camWidth, camHeight, OF_IMAGE_COLOR_ALPHA);
-    
-    // images to be used (set 4)
-    displayImage4.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
-    displayCutOut4.allocate(camWidth, camHeight, OF_IMAGE_COLOR_ALPHA);
+    // images to be displayed in loops
+    displayImage.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
     
     // temp (and awesome) background
     tulips.loadImage("holland_tulips.jpg");
     
     // threshold for background subtractions
     threshold = 400;
+    
+    // music setup; start all instruments together
+    // will turn on volume only when that loop is triggered
+    drums.loadSound("drums.mp3");
+    conga.loadSound("conga.mp3");
+    bass.loadSound("bass.mp3");
+    guitar.loadSound("guitar.mp3");
+    
+    drums.setLoop(true);
+    conga.setLoop(true);
+    bass.setLoop(true);
+    guitar.setLoop(true);
+    
+    drums.setVolume(0);
+    conga.setVolume(0);
+    bass.setVolume(0);
+    guitar.setVolume(0);
+    
+    drums.play();
+    conga.play();
+    bass.play();
+    guitar.play();
+
 }
 
 
@@ -84,162 +95,26 @@ void testApp::update(){
     
     // when press a, record from camera (each frame adds an image to vector)
     if(ofGetKeyPressed('a')){
-        if(ps3eye.isFrameNew()){
-            unsigned char * grayPixels = grayImageForAlpha.getPixels();     // will be alpha channel
-            unsigned char * colorPixels = ps3eye.getPixels();               // pixels from camera
-            unsigned char * colorAlphaPixels = displayCutOut.getPixels();   // camera plus alpha
-            
-            // compare against the background to determine the alpha for the image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    // convert RGB values of each pixel into a vector
-                    // background pixels already converted when spacebar pressed
-                    // now do it for image being recorded
-                    rgbPixels[j*camWidth+i].set(colorPixels[(j*camWidth + i) * 3], colorPixels[(j*camWidth + i) * 3 + 1], colorPixels[(j*camWidth + i) * 3 + 2]);
-                    
-                    // compare bgPixels to rgbPixels to create a black-and-white alpha mask
-                    grayPixels[j*camWidth + i] = bgPixels[j*camWidth + i].squareDistance(rgbPixels[j*camWidth + i]) > threshold ? 255 : 0;
-                    
-                }
-            }
-            
-            // apply the alpha mask when creating new cut-out color image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    colorAlphaPixels[(j*camWidth + i) * 4] = colorPixels[(j*camWidth + i) * 3];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 1] = colorPixels[(j*camWidth + i) * 3 + 1];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 2] = colorPixels[(j*camWidth + i) * 3 + 2];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 3] = grayPixels[j*camWidth + i];
-                }
-            }
-            
-            displayCutOut.update();
-            
-            ofImage temp;
-            temp.setUseTexture(false); // none have texture; stores only in RAM
-            temp.setFromPixels(displayCutOut.getPixelsRef());
-            images.push_back(temp);
-        }
+            makeLoop(images);
+            drums.setVolume(1.0);
     }
     
     // when press b, record a different loop from the camera (each frame adds an image to a different vector)
     if(ofGetKeyPressed('b')){
-        if(ps3eye.isFrameNew()){
-            unsigned char * grayPixels = grayImageForAlpha.getPixels();     // will be alpha channel
-            unsigned char * colorPixels = ps3eye.getPixels();               // pixels from camera
-            unsigned char * colorAlphaPixels = displayCutOut2.getPixels();   // camera plus alpha
-            
-            // compare against the background to determine the alpha for the image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    // convert RGB values of each pixel into a vector
-                    // background pixels already converted when spacebar pressed
-                    // now do it for image being recorded
-                    rgbPixels[j*camWidth+i].set(colorPixels[(j*camWidth + i) * 3], colorPixels[(j*camWidth + i) * 3 + 1], colorPixels[(j*camWidth + i) * 3 + 2]);
-                    
-                    // compare bgPixels to rgbPixels to create a black-and-white alpha mask
-                    grayPixels[j*camWidth + i] = bgPixels[j*camWidth + i].squareDistance(rgbPixels[j*camWidth + i]) > threshold ? 255 : 0;
-                    
-                }
-            }
-            
-            // apply the alpha mask when creating new cut-out color image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    colorAlphaPixels[(j*camWidth + i) * 4] = colorPixels[(j*camWidth + i) * 3];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 1] = colorPixels[(j*camWidth + i) * 3 + 1];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 2] = colorPixels[(j*camWidth + i) * 3 + 2];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 3] = grayPixels[j*camWidth + i];
-                }
-            }
-            
-            displayCutOut2.update();
-
-            ofImage temp;
-            temp.setUseTexture(false); // store only in RAM
-            temp.setFromPixels(displayCutOut2.getPixelsRef());
-            images2.push_back(temp);
-        }
+        makeLoop(images2);
+        conga.setVolume(1.0);
     }
     
     // when press c, record a different loop from the camera (each frame adds an image to a different vector)
     if(ofGetKeyPressed('c')){
-        if(ps3eye.isFrameNew()){
-            unsigned char * grayPixels = grayImageForAlpha.getPixels();     // will be alpha channel
-            unsigned char * colorPixels = ps3eye.getPixels();               // pixels from camera
-            unsigned char * colorAlphaPixels = displayCutOut3.getPixels();   // camera plus alpha
-            
-            // compare against the background to determine the alpha for the image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    // convert RGB values of each pixel into a vector
-                    // background pixels already converted when spacebar pressed
-                    // now do it for image being recorded
-                    rgbPixels[j*camWidth+i].set(colorPixels[(j*camWidth + i) * 3], colorPixels[(j*camWidth + i) * 3 + 1], colorPixels[(j*camWidth + i) * 3 + 2]);
-                    
-                    // compare bgPixels to rgbPixels to create a black-and-white alpha mask
-                    grayPixels[j*camWidth + i] = bgPixels[j*camWidth + i].squareDistance(rgbPixels[j*camWidth + i]) > threshold ? 255 : 0;
-                    
-                }
-            }
-            
-            // apply the alpha mask when creating new cut-out color image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    colorAlphaPixels[(j*camWidth + i) * 4] = colorPixels[(j*camWidth + i) * 3];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 1] = colorPixels[(j*camWidth + i) * 3 + 1];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 2] = colorPixels[(j*camWidth + i) * 3 + 2];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 3] = grayPixels[j*camWidth + i];
-                }
-            }
-            
-            displayCutOut3.update();
-            
-            ofImage temp;
-            temp.setUseTexture(false); // store only in RAM
-            temp.setFromPixels(displayCutOut3.getPixelsRef());
-            images3.push_back(temp);
-        }
+        makeLoop(images3);
+        bass.setVolume(1.0);
     }
     
     // when press d, record a different loop from the camera (each frame adds an image to a different vector)
     if(ofGetKeyPressed('d')){
-        if(ps3eye.isFrameNew()){
-            unsigned char * grayPixels = grayImageForAlpha.getPixels();     // will be alpha channel
-            unsigned char * colorPixels = ps3eye.getPixels();               // pixels from camera
-            unsigned char * colorAlphaPixels = displayCutOut4.getPixels();   // camera plus alpha
-            
-            // compare against the background to determine the alpha for the image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    // convert RGB values of each pixel into a vector
-                    // background pixels already converted when spacebar pressed
-                    // now do it for image being recorded
-                    rgbPixels[j*camWidth+i].set(colorPixels[(j*camWidth + i) * 3], colorPixels[(j*camWidth + i) * 3 + 1], colorPixels[(j*camWidth + i) * 3 + 2]);
-                    
-                    // compare bgPixels to rgbPixels to create a black-and-white alpha mask
-                    grayPixels[j*camWidth + i] = bgPixels[j*camWidth + i].squareDistance(rgbPixels[j*camWidth + i]) > threshold ? 255 : 0;
-                    
-                }
-            }
-            
-            // apply the alpha mask when creating new cut-out color image
-            for (int i = 0; i < camWidth; i++){
-                for (int j = 0; j < camHeight; j++){
-                    colorAlphaPixels[(j*camWidth + i) * 4] = colorPixels[(j*camWidth + i) * 3];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 1] = colorPixels[(j*camWidth + i) * 3 + 1];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 2] = colorPixels[(j*camWidth + i) * 3 + 2];
-                    colorAlphaPixels[(j*camWidth + i) * 4 + 3] = grayPixels[j*camWidth + i];
-                }
-            }
-            
-            displayCutOut4.update();
-
-            ofImage temp;
-            temp.setUseTexture(false); // store only in RAM
-            temp.setFromPixels(displayCutOut4.getPixelsRef());
-            images4.push_back(temp);
-        }
+        makeLoop(images4);
+        guitar.setVolume(1.0);
     }
     
 	ps3eye.update();
@@ -252,6 +127,12 @@ void testApp::draw(){
     background.draw(640, 0, 320, 240);
     tulips.draw(640, 240, 320, 240);
     
+    cout << "A images: " << images.size() << endl;
+    cout << "B images: " << images2.size() << endl;
+    cout << "C images: " << images3.size() << endl;
+    cout << "D images: " << images4.size() << endl;
+    
+    
     if (images.size() > 0){
         int whichImage = ofGetFrameNum() % images.size();
         displayImage.setFromPixels(images[whichImage].getPixelsRef());
@@ -261,33 +142,31 @@ void testApp::draw(){
     
     if(images2.size() > 0){
         int whichImage = ofGetFrameNum() % images2.size();
-        displayImage2.setFromPixels(images2[whichImage].getPixelsRef());
-        displayImage2.draw(320, 240);
-        displayImage2.draw(640, 240);
+
+        displayImage.setFromPixels(images2[whichImage].getPixelsRef());
+        displayImage.draw(320, 240);
+        displayImage.draw(640, 240);
     }
     
     if(images3.size() > 0){
         int whichImage = ofGetFrameNum() % images3.size();
-        displayImage3.setFromPixels(images3[whichImage].getPixelsRef());
-        displayImage3.draw(0, 480);
-        displayImage3.draw(640, 240);
+        displayImage.setFromPixels(images3[whichImage].getPixelsRef());
+        displayImage.draw(0, 480);
+        displayImage.draw(640, 240);
     }
     
     if(images4.size() > 0){
         int whichImage = ofGetFrameNum() % images4.size();
-        displayImage4.setFromPixels(images4[whichImage].getPixelsRef());
-        displayImage4.draw(320, 480);
-        displayImage4.draw(640, 240);
+        displayImage.setFromPixels(images4[whichImage].getPixelsRef());
+        displayImage.draw(320, 480);
+        displayImage.draw(640, 240);
     }
     
     
     ofDrawBitmapString("Press spacebar to set background", 10, 10);
 	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 10, 20);
+    ofDrawBitmapString("App FPS: " + ofToString(ofGetFrameRate()), 10, 30);
 }
-
-
-
-
 
 
 //--------------------------------------------------------------
@@ -297,6 +176,46 @@ void testApp::keyPressed  (int key){
         images2.clear();
         images3.clear();
         images4.clear();
+    }
+}
+
+//--------------------------------------------------------------
+void testApp::makeLoop (vector<ofImage> & loopingClip){
+    if(ps3eye.isFrameNew()){
+        unsigned char * grayPixels = grayImageForAlpha.getPixels();     // will be alpha channel
+        unsigned char * colorPixels = ps3eye.getPixels();               // pixels from camera
+        unsigned char * colorAlphaPixels = displayCutOut.getPixels();   // camera plus alpha
+        
+        // compare against the background to determine the alpha for the image
+        for (int i = 0; i < camWidth; i++){
+            for (int j = 0; j < camHeight; j++){
+                // convert RGB values of each pixel into a vector
+                // background pixels already converted when spacebar pressed
+                // now do it for image being recorded
+                rgbPixels[j*camWidth+i].set(colorPixels[(j*camWidth + i) * 3], colorPixels[(j*camWidth + i) * 3 + 1], colorPixels[(j*camWidth + i) * 3 + 2]);
+                
+                // compare bgPixels to rgbPixels to create a black-and-white alpha mask
+                grayPixels[j*camWidth + i] = bgPixels[j*camWidth + i].squareDistance(rgbPixels[j*camWidth + i]) > threshold ? 255 : 0;
+                
+            }
+        }
+        
+        // apply the alpha mask when creating new cut-out color image
+        for (int i = 0; i < camWidth; i++){
+            for (int j = 0; j < camHeight; j++){
+                colorAlphaPixels[(j*camWidth + i) * 4] = colorPixels[(j*camWidth + i) * 3];
+                colorAlphaPixels[(j*camWidth + i) * 4 + 1] = colorPixels[(j*camWidth + i) * 3 + 1];
+                colorAlphaPixels[(j*camWidth + i) * 4 + 2] = colorPixels[(j*camWidth + i) * 3 + 2];
+                colorAlphaPixels[(j*camWidth + i) * 4 + 3] = grayPixels[j*camWidth + i];
+            }
+        }
+        
+        displayCutOut.update();
+        
+        ofImage temp;
+        temp.setUseTexture(false); // store only in RAM
+        temp.setFromPixels(displayCutOut.getPixelsRef());
+        loopingClip.push_back(temp);
     }
 }
 
@@ -339,3 +258,4 @@ void testApp::gotMessage(ofMessage msg){
 void testApp::dragEvent(ofDragInfo dragInfo){
     
 }
+
