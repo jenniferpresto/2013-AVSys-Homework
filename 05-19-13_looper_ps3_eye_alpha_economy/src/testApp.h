@@ -3,6 +3,9 @@
 #include "ofMain.h"
 #include "ofxMacamPs3Eye.h"
 
+#define CAMWIDTH 320
+#define CAMHEIGHT 240
+
 class testApp : public ofBaseApp{
 	
 	public:
@@ -28,6 +31,9 @@ class testApp : public ofBaseApp{
     
     // color images
     ofImage background;
+    unsigned char * backgroundPixels;
+    ofVec3f bgPixels[CAMHEIGHT*CAMWIDTH]; // this will store each bg pixel as a vector for comparison
+    ofVec3f rgbPixels[CAMHEIGHT*CAMWIDTH]; // this will store each live pixel as a vector for comparison
     ofImage grayImageForAlpha;
     
     vector<ofImage> images;     // first looping image
@@ -41,10 +47,10 @@ class testApp : public ofBaseApp{
     ofImage displayImage4;
     
     
-    ofImage displayCutOut;
-    ofImage displayCutOut2;
-    ofImage displayCutOut3;
-    ofImage displayCutOut4;
+    ofImage displayCutOut;  // first image plus alpha
+    ofImage displayCutOut2; // second image plus alpha
+    ofImage displayCutOut3; // third image plus alpha
+    ofImage displayCutOut4; // fourth image plus alpha
     
     //threshold of comparison
     float threshold;
